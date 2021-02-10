@@ -6,12 +6,28 @@ const promptUser = () => {
     {
       type: 'input',
       name: 'name',
-      message: 'What is your name?'
+      message: 'What is your name? (Required)',
+      validate: nameInput => {
+        if (nameInput) {
+          return true; 
+        } else {
+          console.log('Please enter your name!');
+          return false;
+        }
+      }
     },
     {
       type: 'input',
       name: 'github',
-      message: 'Enter your GitHub Username'
+      message: 'Enter your GitHub Username (Required)',
+      validate: gitInput => {
+        if (gitInput) {
+          return true;
+        } else {
+          console.log('Please enter your GitHub Username!');
+          return false;
+        }
+      }
     },
     {
       type: 'input',
@@ -37,12 +53,28 @@ const promptProject = portfolioData => {
     {
       type: 'input',
       name: 'name',
-      message: 'What is the name of your project?'
+      message: 'What is the name of your project? (Required)',
+      validate: proInput => {
+        if (proInput) {
+          return true;
+        } else {
+          console.log('Please enter the project name!');
+          return false;
+        }
+      }
     },
     {
       type: 'input',
       name: 'description',
-      message: 'Provide a description of the project (Required)'
+      message: 'Provide a description of the project (Required)',
+      validate: proDescript => {
+        if (proDescript) {
+          return true; 
+        } else {
+          console.log('Please enter a description!');
+          return false;
+        }
+      }
     },
     {
       type: 'checkbox',
@@ -53,7 +85,15 @@ const promptProject = portfolioData => {
     {
       type: 'confirm',
       name: 'link',
-      message: 'Enter the GitHub link to your project. (Required)'
+      message: 'Enter the GitHub link to your project. (Required)',
+      validate: proLink => {
+        if (proLink) {
+          return true;
+        } else {
+          console.log('Please enter a project link!');
+          return false;
+        }
+      }
     },
     {
       type: 'confirm',
