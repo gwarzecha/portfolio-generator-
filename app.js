@@ -1,5 +1,6 @@
-
+const fs = require('fs');
 const inquirer = require('inquirer');
+const generatePage = require('./src/page-template');
 
 const promptUser = () => {
   return inquirer.prompt([
@@ -9,7 +10,7 @@ const promptUser = () => {
       message: 'What is your name? (Required)',
       validate: nameInput => {
         if (nameInput) {
-          return true; 
+          return true;
         } else {
           console.log('Please enter your name!');
           return false;
@@ -83,7 +84,7 @@ const promptProject = portfolioData => {
       message: 'Provide a description of the project (Required)',
       validate: proDescript => {
         if (proDescript) {
-          return true; 
+          return true;
         } else {
           console.log('Please enter a description!');
           return false;
@@ -97,7 +98,7 @@ const promptProject = portfolioData => {
       choices: ['JavaScript', 'HTML', 'CSS', 'ES6', 'jQuery', 'Bootstrap', 'Node']
     },
     {
-      type: 'confirm',
+      type: 'input',
       name: 'link',
       message: 'Enter the GitHub link to your project. (Required)',
       validate: proLink => {
@@ -122,27 +123,33 @@ const promptProject = portfolioData => {
       default: false
     }
   ])
-  .then(projectData => {
-    portfolioData.projects.push(projectData);
-    if (projectData.confirmAddProject) {
-      return promptProject(portfolioData);
-    } else {
-      return portfolioData;
-    }
-  });;
+    .then(projectData => {
+      portfolioData.projects.push(projectData);
+      if (projectData.confirmAddProject) {
+        return promptProject(portfolioData);
+      } else {
+        return portfolioData;
+      }
+    });;
 };
 
 // chained function call
 promptUser()
   .then(promptProject)
   .then(portfolioData => {
-    console.log(portfolioData);
+    const pageHTML = generatePage(portfolioData);
+
+    fs.writeFile('./index.html', pageHTML, err => {
+      if (err) throw new Error(err);
+
+      console.log('Page created! Check out index.html in this directory to see it!');
+    });
   });
-  
+
+
 
 /*
-const fs = require('fs');
-const generatePage = require('./src/page-template.js');
+
 
 
 const pageHTML = generatePage(name, github);
